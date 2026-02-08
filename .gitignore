@@ -5,3 +5,43 @@ checkpoints/
 detector_models/
 saved_models/
 out/
+
+# Build artifacts
+*.o
+*.so
+*.a
+*.dylib
+*.exe
+forensic_watermarker_example
+test_payload
+test_buffer
+*.dSYM/
+
+# Optimized models
+optimized_models/
+*.trt
+*.onnx
+*.plan
+
+# Python
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+
+# Output directories
+output/
+test_output/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+

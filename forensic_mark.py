@@ -7,6 +7,7 @@ BCH_BITS = 5
 
 TIMER_INTERVAL_MINUTES = 15
 TIMERS_PER_DAY = 24 * 60 // TIMER_INTERVAL_MINUTES
+# DCSS timer indices use a fixed 366-day annual cycle.
 DAYS_PER_YEAR = 366
 TOTAL_TIMERS = DAYS_PER_YEAR * TIMERS_PER_DAY
 TIMER_BITS = 16
@@ -50,6 +51,7 @@ def datetime_for_timer_index(value, year=None):
 
 
 def adapter_bit_length(location_bits):
+    """Return the number of adapter bits available for the payload."""
     return DATA_BITS - TIMER_BITS - location_bits
 
 
@@ -114,11 +116,11 @@ def parse_payload_bits(payload_bits, location_bits=20):
     timer_bits = payload_bits[:TIMER_BITS]
     location_start = TIMER_BITS
     location_end = TIMER_BITS + location_bits
-    location_bits_value = payload_bits[location_start:location_end]
+    location_bits_str = payload_bits[location_start:location_end]
     adapter_bits = payload_bits[location_end:]
     return ForensicMark(
         timer_index=int(timer_bits, 2),
-        location_id=int(location_bits_value, 2),
+        location_id=int(location_bits_str, 2),
         adapter_bits=adapter_bits,
         location_bits=location_bits,
     )

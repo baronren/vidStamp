@@ -10,6 +10,8 @@ from tensorflow.python.saved_model import signature_constants
 
 import forensic_mark
 
+SECONDS_PER_MINUTE = 60
+
 
 def parse_start_time(value):
     if value is None:
@@ -83,7 +85,7 @@ def main():
 
     frames_per_payload = args.frames_per_payload
     if frames_per_payload is None:
-        frames_per_payload = max(1, int(round(fps * args.segment_minutes * 60)))
+        frames_per_payload = max(1, int(round(fps * args.segment_minutes * SECONDS_PER_MINUTE)))
     if frames_per_payload <= 0:
         raise ValueError("Frames per payload must be positive.")
 

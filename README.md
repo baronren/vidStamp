@@ -23,14 +23,14 @@ If you find our work useful, please consider citing:
 
 ## Installation
 - Clone repo and install submodules
-```bash=
+```bash
 git clone --recurse-submodules https://github.com/tancik/StegaStamp.git
 cd StegaStamp
 ```
 - Install tensorflow (tested with tf 1.13)
 - Python 3 required
 - Download dependencies
-```bash=
+```bash
 pip install -r requirements.txt
 ```
 
@@ -42,7 +42,7 @@ TRAIN_PATH = DIR_OF_DATASET_IMAGES
 ```
 
 - Train model
-```bash=
+```bash
 bash scripts/base.sh EXP_NAME
 ```
 The training is performed in `train.py`. There are a number of hyperparameters, many corresponding to the augmentation parameters. `scripts/bash.sh` provides a good starting place.
@@ -52,7 +52,7 @@ The training code for the detector model (used to segment StegaStamps) is not in
 
 ### Tensorboard
 To visualize the training run the following command and navigate to http://localhost:6006 in your browser.
-```bash=
+```bash
 tensorboard --logdir logs
 ```
 
@@ -60,7 +60,7 @@ tensorboard --logdir logs
 The script `encode_image.py` can be used to encode a message into an image or a directory of images. The default model expects a utf-8 encoded secret that is <= 7 characters (100 bit message -> 56 bits after ECC).
 
 Encode a message into an image:
-```bash=
+```bash
 python encode_image.py \
   saved_models/stegastamp_pretrained \
   --image test_im.png  \
@@ -74,7 +74,7 @@ The script `encode_video.py` embeds DCSS forensic mark data into each video fram
 
 Each payload is embedded across consecutive frames; by default the payload repeats for a 5-minute segment so that every 5-minute window includes all adapter bits. You can override the frame window if needed.
 
-```bash=
+```bash
 python encode_video.py \
   saved_models/stegastamp_pretrained \
   --video input.mp4 \
@@ -91,7 +91,7 @@ Adapter bit length must match the remaining payload space (20 bits when using a 
 The script `decode_image.py` can be used to decode a message from a StegaStamp.
 
 Example usage:
-```bash=
+```bash
 python decode_image.py \
   saved_models/stegastamp_pretrained \
   --image out/test_hidden.png
@@ -102,7 +102,7 @@ The script `detector.py` can be used to detect and decode StegaStamps in an imag
 
 To use the detector, make sure to download the detector model as described in the installation section. The recomended input video resolution is 1920x1080.
 
-```bash=
+```bash
 python detector.py \
   --detector_model detector_models/stegastamp_detector \
   --decoder_model saved_models/stegastamp_pretrained \

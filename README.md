@@ -69,6 +69,24 @@ python encode_image.py \
 ```
 This will save both the StegaStamp and the residual that was applied to the original image.
 
+## DCSS Forensic Mark (Real-time Video Encoding)
+The script `encode_video.py` embeds DCSS forensic mark data into each video frame in a real-time, inline process. It computes a 16-bit timer index (15-minute increments across a 366-day cycle, repeating annually) and packs it with a 19/20-bit location identifier plus adapter bits into the 56-bit payload used by the StegaStamp model (BCH ECC is applied automatically).
+
+Each payload is embedded across consecutive frames; by default the payload repeats for a 5-minute segment so that every 5-minute window includes all adapter bits. You can override the frame window if needed.
+
+```bash=
+python encode_video.py \
+  saved_models/stegastamp_pretrained \
+  --video input.mp4 \
+  --save_video output.avi \
+  --location_id 12345 \
+  --location_bits 20 \
+  --adapter_bits 00000000000000000000 \
+  --start_time 2026-02-08T04:00:00+00:00
+```
+
+Adapter bit length must match the remaining payload space (20 bits when using a 20-bit location ID, 21 bits when using a 19-bit location ID).
+
 ## Decoding a Message
 The script `decode_image.py` can be used to decode a message from a StegaStamp.
 

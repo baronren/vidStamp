@@ -31,6 +31,7 @@ def normalize_datetime(value):
 
 
 def timer_index_for_datetime(value):
+    """Return the DCSS timer index using a 366-day repeating cycle."""
     value = normalize_datetime(value)
     day_index = (value.timetuple().tm_yday - 1) % DAYS_PER_YEAR
     quarter_hour = value.minute // TIMER_INTERVAL_MINUTES

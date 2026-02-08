@@ -55,6 +55,8 @@ def main():
     parser.add_argument('--adapter_bits', type=str, default=None)
     parser.add_argument('--start_time', type=str, default=None,
                         help="ISO-8601 start time (defaults to now in UTC)")
+    parser.add_argument('--fourcc', type=str, default="XVID",
+                        help="FourCC codec for output video (default: XVID)")
     parser.add_argument('--segment_minutes', type=int, default=5)
     parser.add_argument('--frames_per_payload', type=int, default=None,
                         help="Override frames per payload window (default: segment length)")
@@ -72,7 +74,9 @@ def main():
     width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
     height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
 
-    fourcc = cv2.VideoWriter_fourcc(*'XVID')
+    if len(args.fourcc) != 4:
+        raise ValueError("FourCC codec must be four characters.")
+    fourcc = cv2.VideoWriter_fourcc(*args.fourcc)
     out = cv2.VideoWriter(args.save_video, fourcc, fps, (width, height))
     if not out.isOpened():
         raise ValueError("Unable to open output video writer.")
